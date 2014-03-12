@@ -8,7 +8,7 @@ import com.ecorecycle.db.DAOException;
 import com.ecorecycle.db.RecycleManagementDAO;
 import com.ecorecycle.db.RecycleManagementDaoImpl;
 import com.ecorecycle.gui.ItemView;
-import com.ecorecycle.gui.ItemViewModel;
+import com.ecorecycle.gui.viewmodels.ItemViewModel;
 import com.ecorecycle.vo.ItemVO;
 
 public class ItemController {
@@ -73,7 +73,7 @@ public class ItemController {
 		}
 	}
 	
-	public int performAddItemAction() {
+	private int performAddItemAction() {
 		if(_viewModel.getOptionSelected() == 1){
 			ItemVO itemVO = new ItemVO();
 			itemVO.setItemName(_viewModel.getItemName());
@@ -91,7 +91,7 @@ public class ItemController {
 		return 0;
 	}
 	
-	public int performUpdateItemAction() {
+	private int performUpdateItemAction() {
 		if(_viewModel.getOptionSelected() == 1){
 			ItemVO itemVO = new ItemVO();
 			itemVO.setItemId(_viewModel.getItemId());

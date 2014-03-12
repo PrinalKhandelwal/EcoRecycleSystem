@@ -3,12 +3,14 @@ package com.ecorecycle.db;
 import java.util.List;
 
 import com.ecorecycle.vo.ItemVO;
-import com.ecorecycle.vo.RCMVO;
+import com.ecorecycle.vo.RcmVO;
 
 public interface RecycleManagementDAO {
 	
 // Actions perform on Items
     ItemVO getItem(int itemId) throws DAOException;
+    
+    ItemVO getItem(String type) throws DAOException;
 	
 	List<ItemVO> getAllItems() throws DAOException;
 	
@@ -19,11 +21,16 @@ public interface RecycleManagementDAO {
 	
 // Actions perform on RCM
 	
-	int insertRCM(RCMVO rcmvo) throws DAOException;
+	int insertRCM(RcmVO rcmvo) throws DAOException;
 	
-	int deleteRCM(RCMVO rcmvo) throws DAOException;
+	int deleteRCM(RcmVO rcmvo) throws DAOException;
 	
-	int updateRCM(RCMVO rcmvo) throws DAOException;
+	int updateRCM(RcmVO rcmvo) throws DAOException;
 
-	List<RCMVO> getAllRCM() throws DAOException;
+	List<RcmVO> getAllRCM() throws DAOException;
+	
+	
+	List<ItemVO> getMappedItems(int machineId) throws DAOException;
+	
+	int upsertMappedItem(int machineId,List<ItemVO> items) throws DAOException;
 }

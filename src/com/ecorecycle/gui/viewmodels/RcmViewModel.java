@@ -1,9 +1,9 @@
-package com.ecorecycle.vo;
+package com.ecorecycle.gui.viewmodels;
 
 import java.util.Date;
+import java.util.List;
 
-public class RcmVO {
-
+public class RcmViewModel {
 	//Table RCM_GROUP
 	int machineId;
 	int opStatus;
@@ -11,13 +11,10 @@ public class RcmVO {
 	String maxCapacity;
 	String cashDefaultAmount;
 	Date time_last_activated;
+	private int optionSelected;
 	
-	public Date getTime_last_activated() {
-		return time_last_activated;
-	}
-	public void setTime_last_activated(Date time_last_activated) {
-		this.time_last_activated = time_last_activated;
-	}
+	List<String> selectedItems;
+	
 	public int getMachineId() {
 		return machineId;
 	}
@@ -49,13 +46,28 @@ public class RcmVO {
 	public void setCashDefaultAmount(String cashDefaultAmount) {
 		this.cashDefaultAmount = cashDefaultAmount;
 	}
-	
-	@Override
-	public String toString() {
-		return "RCMVo [machineId=" + machineId 
-				+ ", opStatus=" + opStatus + ", location=" + location
-				+ ", maxCapacity=" + maxCapacity
-				+ ", cashDefaultAmount=" + cashDefaultAmount
-			    + "]";
+	public Date getTime_last_activated() {
+		return time_last_activated;
 	}
+	public void setTime_last_activated(Date time_last_activated) {
+		this.time_last_activated = time_last_activated;
+	}
+	public int getOptionSelected() {
+		return optionSelected;
+	}
+	public void setOptionSelected(int optionSelected) {
+		this.optionSelected = optionSelected;
+	}
+	
+	public String toString(){
+		return  machineId + "::" + location;
+	}
+	public List<String> getSelectedItems() {
+		return selectedItems;
+	}
+	
+	public void setSelectedItems(List<String> items){
+		this.selectedItems = items;
+	}
+	
 }
