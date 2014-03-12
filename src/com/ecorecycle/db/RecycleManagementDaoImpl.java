@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.ecorecycle.vo.*;
 import com.ecorecycle.db.DAOException;
 
@@ -204,7 +205,7 @@ public class RecycleManagementDaoImpl implements RecycleManagementDAO {
 	}
 
 	
-	public int insertRCM(RCMVo rcm) throws DAOException {
+	public int insertRCM(RCMVO rcm) throws DAOException {
 		Connection conn = connectDb();
 		Statement statement = null;
 		try {
@@ -213,8 +214,8 @@ public class RecycleManagementDaoImpl implements RecycleManagementDAO {
 					+ TABLE_RCM_GROUP_ID + "," + TABLE_RCM_OP_STATUS + "," 
 					+ TABLE_RCM_LOCATION + "," + TABLE_RCM_MAX_CAPACITY + ","
 				    + TABLE_RCM_DEFAULT_CASH + "," + TABLE_RCM_LAST_ACTIVATED +")" + 
-					" VALUES " + " (null," + "'" + rcm.getGroupId() + "'" + ",'" + rcm.getOpStatus() + "'"
-					+ "," + rcm.getLocation() + "," + rcm.getMaxCapacity() 
+					" VALUES " + " (null," + rcm.getGroupId() +  ", '" + rcm.getOpStatus() + "'"
+					+ ", '" + rcm.getLocation() + "' ," + rcm.getMaxCapacity() 
 					+ "," + rcm.getCashDefaultAmount() + "," + rcm.getTime_last_activated() +");";
 			statement = conn.createStatement();
 			int rowsInserted = statement.executeUpdate(insertSql);
@@ -241,7 +242,118 @@ public class RecycleManagementDaoImpl implements RecycleManagementDAO {
 			}
 		}
 	}
+		
+		public int deleteRCM(RCMVO rcmvo) throws DAOException {
+			Connection conn = connectDb();
+			PreparedStatement statement = null;
+			try {
+				conn.setAutoCommit(false);
+				statement = conn.prepareStatement("DELETE FROM " + TABLE_RCM + " WHERE "
+						 + TABLE_RCM_LOCATION + "= ?");
+				
+				statement.setString(1, rcmvo.getLocation());
+				int rowsUpdated = statement.executeUpdate();
+				conn.commit();
+				return rowsUpdated;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DAOException(e.getMessage());
+			} finally {
+				try {
 
+					if (statement != null) {
+						statement.close();
+					}
+					if(conn != null){
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw new DAOException(e.getMessage());
+				}
+			}
+		}
+
+
+
+		@Override
+		public List<RCMVO> getAllRCM() throws DAOException {
+				Connection conn = connectDb();
+				Statement statement = null;
+				ResultSet rs = null;
+				try {
+					statement = conn.createStatement();
+					rs = statement.executeQuery("SELECT * FROM " + TABLE_RCM + ";");
+					List<RCMVO> rcms = new ArrayList<RCMVO>();
+					while (rs.next()) {
+						RCMVO rcmVo = new RCMVO();
+						rcmVo.setMachineId(rs.getInt(TABLE_RCM_MACHINE_ID));
+						rcmVo.setGroupId(rs.getInt(TABLE_RCM_GROUP_ID));
+						rcmVo.setLocation(rs.getString(TABLE_RCM_LOCATION));
+						rcmVo.setOpStatus(rs.getInt(TABLE_RCM_OP_STATUS));
+						rcmVo.setMaxCapacity(rs.getString(TABLE_RCM_MAX_CAPACITY));
+						rcmVo.setCashDefaultAmount(rs.getString(TABLE_RCM_DEFAULT_CASH));
+						rcmVo.setTime_last_activated(rs.getDate(TABLE_RCM_LAST_ACTIVATED));
+						rcms.add(rcmVo);
+					}
+					return rcms;
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw new DAOException(e.getMessage());
+				} finally {
+					try {
+						if (rs != null) {
+							rs.close();
+						}
+						if (statement != null) {
+							statement.close();
+						}
+						if(conn != null){
+							conn.close();
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+						throw new DAOException(e.getMessage());
+					}
+				}
+		}
+
+
+
+		@Override
+		public int updateRCM(RCMVO rcmvo) throws DAOException {
+				Connection conn = connectDb();
+				PreparedStatement statement = null;
+				try {
+					conn.setAutoCommit(false);
+					statement = conn.prepareStatement("UPDATE " + TABLE_RCM + " SET "
+							+ TABLE_RCM_OP_STATUS + "= ? " + "WHERE " + TABLE_RCM_LOCATION + "= ?");
+					
+					statement.setInt(1, rcmvo.getOpStatus());
+					statement.setString(2, rcmvo.getLocation());
+					int rowsUpdated = statement.executeUpdate();
+					conn.commit();
+					return rowsUpdated;
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw new DAOException(e.getMessage());
+				} finally {
+					try {
+
+						if (statement != null) {
+							statement.close();
+						}
+						if(conn != null){
+							conn.close();
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+						throw new DAOException(e.getMessage());
+					}
+				}
+			}
+			
+		}
 
 
 
@@ -269,4 +381,3 @@ public class RecycleManagementDaoImpl implements RecycleManagementDAO {
 //		}
 //	}
 
-}

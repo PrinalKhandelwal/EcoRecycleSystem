@@ -4,19 +4,16 @@ package com.ecorecycle.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.SwingUtilities;
-
 import com.ecorecycle.gui.ItemView;
+import com.ecorecycle.gui.RCMView;
 import com.ecorecycle.gui.RmosMainMenu;
+import com.ecorecycle.gui.itemRCMView;
 
 	public class RecycleMonitorController{
-		
 		private RmosMainMenu _view;
-		
 		public RecycleMonitorController(RmosMainMenu rmosView){
 			this._view = rmosView;
 		}
-		
 		
 		public void control() {
 			_view.getAddItemButton().addActionListener(new ActionListener() {
@@ -38,37 +35,43 @@ import com.ecorecycle.gui.RmosMainMenu;
 				}
 			});
 			
-			
 			_view.getAddRCMButton().addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-//					ItemView itemView = new ItemView("Add an RCM");
-//					itemView.createAddRCMGUI();
-//					RecycleMonitorVO viewModel = itemView.getViewModel();
-//					RcmController rcmController = new RcmController(itemView,viewModel);
-//					if(rcmController.performAddRCMAction()){
-//						itemView.createSuccessEvent();
-//					}
-//					else{
-//						itemView.createFailureEvent();
-//					}
+					RCMView rcmView = new RCMView("Add an RCM");
+					RcmController rcmController = new RcmController(rcmView);
+					rcmController.controlAddRCM();
 				}
 			});
-		}
-		
-		public static void main(String[] args){
 			
-			SwingUtilities.invokeLater(new Runnable() {
-
+			_view.getDeleteRCMButton().addActionListener(new ActionListener() {
 				@Override
-				public void run() {
-					RmosMainMenu rmosView = new RmosMainMenu("Recycle Monitoring System");
-					RecycleMonitorController rmosCntrl = new RecycleMonitorController(rmosView); 
-					rmosCntrl.control();
+				public void actionPerformed(ActionEvent e) {
+					RCMView rcmView = new RCMView("Delete an RCM");
+					RcmController rcmController = new RcmController(rcmView);
+					rcmController.controlDeleteRCM();
 				}
 			});
+			
+			_view.getUpdateRCMButton().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					RCMView rcmView = new RCMView("Update an RCM");
+					RcmController rcmController = new RcmController(rcmView);
+					rcmController.createUpdateRCMGUI();
+				}
+			});
+			
+			_view.getItemRCMButton().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					itemRCMView itemRcmView = new itemRCMView("Map Machine-Item");
+				//	ItemRcmController itemRcmController = new ItemRcmController(itemRcmView, itemView);
+					//itemRcmController.createSearchItemRCMGUI();
+				}
+			});
+			
 		}
-		
 	}
 
 

@@ -2,12 +2,12 @@ package com.ecorecycle.vo;
 
 import java.util.Date;
 
-public class RCMVo {
+public class RCMVO {
 
 	//Table RCM_GROUP
 			int machineId;
 			int groupId;
-			char opStatus;
+			int opStatus;
 			String location;
 			String maxCapacity;
 			String cashDefaultAmount;
@@ -31,10 +31,10 @@ public class RCMVo {
 			public void setGroupId(int groupId) {
 				this.groupId = groupId;
 			}
-			public char getOpStatus() {
+			public int getOpStatus() {
 				return opStatus;
 			}
-			public void setOpStatus(char opStatus) {
+			public void setOpStatus(int opStatus) {
 				this.opStatus = opStatus;
 			}
 			public String getLocation() {

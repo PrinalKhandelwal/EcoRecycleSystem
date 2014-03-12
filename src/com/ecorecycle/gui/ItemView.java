@@ -1,7 +1,11 @@
 package com.ecorecycle.gui;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,6 +15,7 @@ import javax.swing.JTextField;
 	public class ItemView {
 		
 		private JComboBox updateComboBox = new JComboBox();
+		private JTextField id = new JTextField(10);
 		private JTextField name = new JTextField(10);
 		private JTextField price = new JTextField(10);
 		private JTextField weight = new JTextField(10);
@@ -18,6 +23,12 @@ import javax.swing.JTextField;
 		
 		private String title;
 		private ItemViewModel viewModel = new ItemViewModel();
+		
+		private JCheckBox itemName;
+		
+		public ItemView(){
+			
+		}
 		
 		public ItemView(String text){
 			this.title = text;
@@ -50,7 +61,6 @@ import javax.swing.JTextField;
 			popupPanel.add(updateComboBox);
 			ItemViewModel item = (ItemViewModel)updateComboBox.getSelectedItem();
 			setUpdateFields(item);
-			
 			popupPanel.add(new JLabel("Name ::")); 
 		    popupPanel.add(name);
 		    popupPanel.add(new JLabel("Price ::")); 
@@ -59,6 +69,7 @@ import javax.swing.JTextField;
 	        popupPanel.add(weight);
 	        popupPanel.add(new JLabel("Type ::")); 
 	        popupPanel.add(type);
+	       
 	        Object[] options = {"Cancel", "Submit"};
 	        int optionSelected = JOptionPane.showOptionDialog(null, popupPanel, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 	        if(optionSelected == 1){
@@ -72,33 +83,71 @@ import javax.swing.JTextField;
 		}
 	
 		
-		public void createAddRCMGUI() {
+		public void createItemRCM(){
+		
 			JPanel popupPanel = new JPanel(new GridLayout(0,1)); 
-			JTextField groupId = new JTextField(10);
-			JTextField opStatus = new JTextField(10);
-			JTextField location = new JTextField(10);
-			JTextField maxCapacity = new JTextField(10);
-			JTextField cashAmount = new JTextField(10);
-			popupPanel.add(new JLabel("groupId::")); 
-		    popupPanel.add(groupId);
-		    popupPanel.add(new JLabel("opStatus::")); 
-		    popupPanel.add(opStatus);
-	        popupPanel.add(new JLabel("maxCapacity ::")); 
-	        popupPanel.add(maxCapacity);
-	        popupPanel.add(new JLabel("cashAmount ::")); 
-	        popupPanel.add(cashAmount);
-	        popupPanel.add(new JLabel("location ::")); 
-	        popupPanel.add(location);
-	        Object[] options = {"Cancel", "Submit"};
+			
+			popupPanel.add(new JLabel("Item Id ::")); 
+		    popupPanel.add(id);
+		    id.setEditable(false);
+			popupPanel.add(new JLabel("Item Names ::")); 
+			popupPanel.add(updateComboBox);
+			ItemViewModel item = (ItemViewModel)updateComboBox.getSelectedItem();
+			setUpdateFields(item);
+			
+		    popupPanel.add(new JLabel("Price ::")); 
+		    popupPanel.add(price);
+		    price.setEditable(false);
+	        popupPanel.add(new JLabel("Weight ::")); 
+	        popupPanel.add(weight);
+	        weight.setEditable(false);
+	        popupPanel.add(new JLabel("Type ::")); 
+	        popupPanel.add(type);
+	        type.setEditable(false);
+	        Object[] options = {"Cancel", "OK"};
 	        int optionSelected = JOptionPane.showOptionDialog(null, popupPanel, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-	        viewModel.setItemName(groupId.getName());
-	        viewModel.setType(opStatus.getText());
-	        viewModel.setType(maxCapacity.getText());
-	        viewModel.setType(cashAmount.getText());
-	        viewModel.setType(location.getText());
+	        if(optionSelected == 1){
+	        	viewModel.setItemId(Integer.parseInt(id.getText()));
+		        viewModel.setItemName(((ItemViewModel)updateComboBox.getSelectedItem()).getItemName());
+	        	viewModel.setPrice(Double.parseDouble(price.getText()));
+		        viewModel.setWeight(Double.parseDouble(weight.getText()));
+		        viewModel.setType(type.getText());
+	        }
 	        viewModel.setOptionSelected(optionSelected);
 		}
 
+		public void createSearchAllItemGUI() {
+			JPanel popupPanel = new JPanel(new GridLayout(0,1)); 
+			popupPanel.add(new JLabel("Item Names ::")); 
+			popupPanel.add(updateComboBox);
+			ItemViewModel item = (ItemViewModel)updateComboBox.getSelectedItem();
+			setUpdateFields(item);
+			popupPanel.add(new JLabel("Name ::")); 
+		    popupPanel.add(name);
+		    name.setEditable(false);
+		    popupPanel.add(new JLabel("Price ::")); 
+		    popupPanel.add(price);
+		    price.setEditable(false);
+	        popupPanel.add(new JLabel("Weight ::")); 
+	        popupPanel.add(weight);
+	        weight.setEditable(false);
+	        popupPanel.add(new JLabel("Type ::")); 
+	        popupPanel.add(type);
+	        type.setEditable(false);
+	       
+	        Object[] options = {"Cancel", "Submit"};
+	        int optionSelected = JOptionPane.showOptionDialog(null, popupPanel, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+	        if(optionSelected == 1){
+	        	viewModel.setItemId(((ItemViewModel)updateComboBox.getSelectedItem()).getItemId());
+		        viewModel.setItemName(name.getText());
+	        	viewModel.setPrice(Double.parseDouble(price.getText()));
+		        viewModel.setWeight(Double.parseDouble(weight.getText()));
+		        viewModel.setType(type.getText());
+	        }
+	        viewModel.setOptionSelected(optionSelected);
+		}
+	
+		
 		public ItemViewModel getViewModel() {
 			return viewModel;
 		}

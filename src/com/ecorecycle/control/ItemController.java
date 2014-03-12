@@ -3,10 +3,7 @@ package com.ecorecycle.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-
 import com.ecorecycle.db.DAOException;
 import com.ecorecycle.db.RecycleManagementDAO;
 import com.ecorecycle.db.RecycleManagementDaoImpl;
@@ -55,7 +52,7 @@ public class ItemController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JComboBox cb = (JComboBox)e.getSource();
-					ItemViewModel itemModel = ((ItemViewModel)cb.getSelectedItem());
+					ItemViewModel itemModel = (ItemViewModel) cb.getSelectedItem();
 					_view.setUpdateFields(itemModel);
 					
 				}
